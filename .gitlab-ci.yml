@@ -1,0 +1,32 @@
+image: node:20
+
+# Cache modules in between jobs
+cache:
+  key: $CI_COMMIT_REF_SLUG
+  paths:
+    - .npm/
+
+variables:
+  npm_config_cache: ".npm"
+
+.node-base: &node-base
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+
+test-node-18:
+  <<: *node-base
+  image: node:18
+  script:
+    - npm test
+    - npm run build
+
+test-node-20:
+  <<: *node-base
+  image: node:20
+  script:
+    - npm test
+    - npm run build
+
+# Define the stages
+stages:
+  - test

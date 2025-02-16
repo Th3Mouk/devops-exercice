@@ -1,0 +1,13 @@
+services:
+  jenkins:
+    build: .
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_data:/var/jenkins_home
+      - /Users/jeremy/Projects/Presentations/devops-cours/exo-ci:/workspace/devops-cours/exo-ci:ro
+
+volumes:
+  jenkins_data:
+    driver: local
